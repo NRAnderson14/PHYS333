@@ -5,7 +5,6 @@
 
 #define CLOCK 8
 #define SERIAL_OUT 7
-#define CLEAR 11
 
 int clock_sig;
 int serial_data;
@@ -19,17 +18,16 @@ void setup() {
     clock_sig = 0;
     serial_data = 1;
 
-    // Shift register shifts left when S0 is low and S1 is high
+    // Shift register shifts left when S0 is low and S1 is high and data is fed into the left serial input
     digitalWrite(S0, LOW);
     digitalWrite(S1, HIGH);
-
-    digitalWrite(CLEAR, HIGH);
 }
 
 void loop() {
     digitalWrite(CLOCK, clock_sig);
     clock_sig = !clock_sig;
 
+    // Left 'signal' 0000 - 0001 - 0011 - 0111 - 1111
     digitalWrite(SERIAL_OUT, serial_data);
     if (serial_data > 4) {
         serial_data = 1;
@@ -41,9 +39,11 @@ void loop() {
     digitalWrite(CLOCK, clock_sig);
     clock_sig = !clock_sig;
 
-    delay(500);
+    delay(250);
 }
 
+/* I know there is a clear bit on the chip, but I cannot figure out how it works
+    So instead, just shift low into the register 4 times */
 void clear_all() {
     for (int i = 0; i < 4; i++) {
         digitalWrite(CLOCK, LOW);
