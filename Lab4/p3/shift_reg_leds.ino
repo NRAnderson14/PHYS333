@@ -1,8 +1,5 @@
 /* Driving an array of 8 LEDs with a shift register */
 
-#define S1 2
-#define S0 3
-
 #define CLOCK 8
 #define SERIAL_OUT 7
 
@@ -10,26 +7,21 @@ int clock_sig;
 int serial_data;
 
 void setup() {
-    pinMode(S1, OUTPUT);
-    pinMode(S0, OUTPUT);
     pinMode(CLOCK, OUTPUT);
     pinMode(SERIAL_OUT, OUTPUT);
 
     clock_sig = 0;
     serial_data = 1;
 
-    // Shift register shifts left when S0 is low and S1 is high and data is fed into the left serial input
-    digitalWrite(S0, LOW);
-    digitalWrite(S1, HIGH);
 }
 
 void loop() {
     digitalWrite(CLOCK, clock_sig);
     clock_sig = !clock_sig;
 
-    // Left 'signal' 0000 - 0001 - 0011 - 0111 - 1111
+    // 'signal' 0000 - 0001 - 0011 - 0111 - 1111
     digitalWrite(SERIAL_OUT, serial_data);
-    if (serial_data > 4) {
+    if (serial_data > 5) {
         serial_data = 1;
         clear_all();
     } else {
