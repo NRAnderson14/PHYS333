@@ -7,6 +7,8 @@ void setup() {
 }
 
 void loop() {
+    // Same as before, just check two sensors and see if
+    //  they agree before proceeding
     if (readTemp(BABY_TEMP_READER_1) < 98.0 && 
         readTemp(BABY_TEMP_READER_2) < 98.0) {
         digitalWrite(BABY_HEATER, HIGH);

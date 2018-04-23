@@ -11,6 +11,7 @@ void setup() {
 }
 
 void loop() {
+    // If it gets too cold, warm it up, and vice versa
     if (readTemp(BABY_TEMP_READER) < 98.0) {
         digitalWrite(BABY_HEATER, HIGH);
     } else if (readTemp(BABY_TEMP_READER) > 100.0) {
